@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Listen for XDebug",
+            "type": "php",
+            "request": "launch",
+            // I changed the port, by default xdebug 3 uses 9003
+            "port": 9003,
+            "pathMappings": {
+                "/var/www/html": "${workspaceFolder}/src"
+            },
+        },
+    ]
+}
