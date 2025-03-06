@@ -37,6 +37,7 @@ include 'conn.php';
 
 
 
+
 $brand = $_GET['brand'];
 $query = "select * from cars where make = '$brand'";
 

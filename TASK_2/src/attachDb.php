@@ -56,46 +56,46 @@
 
 
 
-
-
-
 <?php
 
 $id = $_GET['id'];
-$query = "SELECT * FROM artists WHERE ArtistId=".$id;
+$query = "SELECT * FROM artists WHERE ArtistId=$id";
 if (isset($id)) {
    class MyDB extends SQLite3
    {
       function __construct()
       {
-	 // This folder is world writable - to be able to create/modify databases from PHP code
-         $this->open('../test/chinook.db');
+         $this->open('../sqlite3.db');
       }
    }
-   $db = new MyDB();
-   if(!$db){
-      echo $db->lastErrorMsg();
-   } else {
-      echo "Opened database successfully\n";
-   }
-   echo "Query : ".$query."\n";
 
 
-   $ret = $db->query($query);
-   echo "<table>";
-   echo "<tr><th>Artist ID</th><th>Name</th></tr>";
-   while($row = $ret->fetchArray(SQLITE3_ASSOC) ){
-    echo "<tr>";
-    echo "<td>" . htmlspecialchars($row['ArtistId']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['Name']) . "</td>";
-    echo "</tr>";
-   }
-   echo "</table>";
-   if($ret==FALSE)
-    {
-	echo "Error : ".$db->lastErrorMsg();
+    $db = new MyDB();
+    if(!$db){
+        echo $db->lastErrorMsg();
+    } else {
+        echo "Opened database successfully\n";
     }
-   $db->close();
+    echo "Query : ".$query."\n";
 
+
+
+    $ret = $db->exec($query);
+    if($ret==FALSE) {
+        echo "Error : ".$db->lastErrorMsg();
+        }
+
+    $ret = $db->query($query);
+    echo "<table>";
+    echo "<tr><th>Artist ID</th><th>Name</th></tr>";
+    while($row = $ret->fetchArray(SQLITE3_ASSOC) ){
+        echo "<tr>";
+        echo "<td>" . htmlspecialchars($row['ArtistId']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['Name']) . "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
+        
+    $db->close();
 }
 ?>
