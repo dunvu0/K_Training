@@ -1,7 +1,6 @@
 <?php      
-    // trong docker la dbb
-    // $host = "172.30.13.232:3306"; 
-    $host = "db"; 
+    // host trong docker la db
+    $host = "db:3307"; 
     $user = "root";  
     $password = "root";  
     $db_name = "demo";  

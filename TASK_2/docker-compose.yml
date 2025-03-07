@@ -1,14 +1,15 @@
 services:
   src:
-    build: .
+    build: 
+      context: .
     ports:
       - 8000:80
     volumes:
-      - ./src:/var/www/html
+      - ./src:/var/www/html #for debugging
 
   db:
     image: mysql:8.0
-    container_name: mysql-mysql_container
+    container_name: mysql-container
 
     command: >
           bash -c "
@@ -18,11 +19,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: demo
-      MYSQL_USER: user
-      MYSQL_PASSWORD: passwd
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./config/my.cnf:/etc/my.cnf
     ports:
-      - "3306:3306"
+      - "3307:3307"
     restart: always
