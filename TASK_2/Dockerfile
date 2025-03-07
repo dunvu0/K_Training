@@ -12,7 +12,7 @@ RUN docker-php-ext-install mysqli \
 WORKDIR /var/www/html
 
 COPY ./src .
-COPY ./db ./config /var/www/ 
+COPY ./db /var/www/ 
 
 
 # COPY ./config/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
