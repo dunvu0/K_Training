@@ -1,0 +1,35 @@
+services:
+  via-filters:
+    build: ./via-filters
+    ports:
+      - "9001:80"
+    volumes:
+      - ./via-filters/src:/var/www/html
+
+  via-logs:
+    build: ./via-logs
+    ports:
+      - "9002:80"
+    volumes:
+      - ./via-logs/src:/var/www/html
+
+  via-procenv:
+    build: ./via-procenv
+    ports:
+      - "9003:80"
+    volumes:
+      - ./via-procenv/src:/var/www/html
+
+  via-sessions:
+    build: ./via-sessions
+    ports:
+      - "9004:80"
+    volumes:
+      - ./via-sessions/src:/var/www/html
+
+  via-pearcmd:
+    build: ./via-pearcmd
+    ports:
+      - "9005:80"
+    volumes:
+      - ./via-pearcmd/src:/var/www/html
