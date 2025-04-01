@@ -1,0 +1,8 @@
+services:
+  demo: 
+    build: .
+    container_name: file-upload-demo
+    ports:
+      - "1337:80"
+    volumes:
+      - ./src:/var/www/html
