@@ -16,8 +16,7 @@ if(isset($_POST["submit"])) {
     // echo "</pre>";
     $target_dir = "./uploads/";
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-    $isOK = 1;
-    $ext = pathinfo($target_file,PATHINFO_EXTENSION);
+    $ext = pathinfo($_FILES["fileToUpload"]["name"], PATHINFO_EXTENSION);
     
     // 1. Blacklist file extension: .php is dangerous
     // $ext = pathinfo($target_file,PATHINFO_EXTENSION); OR
@@ -63,32 +62,71 @@ if(isset($_POST["submit"])) {
 
 
     // 7. resize image 
-    // function resize($imagePath, $outputPath, $width, $height) {
-    //     try {
-    //         $imagick = new Imagick($imagePath);
-    //         $imagick->thumbnailImage($width, $height, true, true); 
-    //         $imagick->writeImage($outputPath); // Save the resized image
-    //         $imagick->clear();
-    //         $imagick->destroy();
-    //     } catch (Exception $e) {
-    //         echo "<pre>Error resizing image: " . $e->getMessage() . "</pre>";
-    //     }
-    // }
+    function resize($imagePath, $outputPath, $width, $height) {
+        try {
+            $imagick = new Imagick($imagePath);
+            $imagick->thumbnailImage($width, $height, true, true); 
+            $imagick->writeImage($outputPath); // Save the resized image
+            $imagick->clear();
+            $imagick->destroy();
+        } catch (Exception $e) {
+            echo "<pre>Error resizing image: " . $e->getMessage() . "</pre>";
+            unlink($imagePath);
+        }
+    }
 
+    // 8. race condition
+    function is_malware($file_path){
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime_type = finfo_file($finfo, $file_path);
+        finfo_close($finfo);
+        if($mime_type != "image/jpg" && $mime_type != "image/jpeg" && $mime_type != "image/png") {
+            return true;
+        } 
+        return false;
+    }
+
+    function is_image($file_path){
+        $image_size = getimagesize($file_path);
+        if ($image_size === false) {
+            return false;
+        }
+        return true;
+    }
+
+    $upload_path = "./uploads/";
+    $ext = pathinfo($_FILES["fileToUpload"]["name"], PATHINFO_EXTENSION);
+    $filename = basename($_FILES["fileToUpload"]["name"], "." . $ext);
+    $timestamp = time();
+    $new_name = $filename . '_' . $timestamp . '.' . $ext;
+    $upload_dir = $upload_path . $new_name;
+    if ($_FILES['fileToUpload']['size'] <= 5000000) {
+        move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $upload_dir);
+    }
+
+    // check valid image
+    if(is_image($upload_dir) && !is_malware($upload_dir)){
+        echo "<pre> Everything is OK </pre>";
+        resize($upload_dir, $upload_dir, 500, 500);
+        echo "<pre> file has been uploaded at <a href = $upload_dir>here</a>";
+    } else{
+        unlink($upload_dir);
+        die("Hack detected.");
+    }
 
 }
 
 
-if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-    echo "<pre>The file '".basename($_FILES["fileToUpload"]["name"]). "' has been uploaded at " ."<a href='$target_file'>here</a> </pre>";
+// if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+//     echo "<pre>The file '".basename($_FILES["fileToUpload"]["name"]). "' has been uploaded at " ."<a href='$target_file'>here</a> </pre>";
     
-    // 7. Resize the image to 50x50
-    // @resize($target_file, "./uploads/test_after.php", 500,500 );
+//     // 7. Resize the image to 50x50
+//     // @resize($target_file, "./uploads/test_after.php", 500,500 );
 
     
-} else {
-    echo "<pre> Sorry, there was an error uploading your file. </pre>";  
-}
+// } else {
+//     echo "<pre> Sorry, there was an error uploading your file. </pre>";  
+// }
 ?>
 
 
