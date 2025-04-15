@@ -1,0 +1,5 @@
+services:
+  file_storage:
+    build: .
+    ports:
+      - "3000:3000"

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload</title>
+    <link rel="stylesheet" href="/upload.css">
+</head>
+<body>
+    <header class="banner">
+        <h1>Small File Storage</h1>
+    </header>
+
+    <div class="upload-container">
+        <h2>File Upload</h2>
+
+        <form action="/file/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" required class="file-input">
+            <button type="submit" class="upload-button">Upload</button>
+        </form>
+
+        <hr>
+
+        <% if (uploadStatus === 'success') { %>
+            <div class="message success">Upload Successful!</div>
+        <% } else if (uploadStatus === 'fail') { %>
+            <div class="message fail">Upload Failed. Please try again.</div>
+        <% } %>
+    </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File List</title>
+    <link rel="stylesheet" href="/list.css">
+</head>
+<body>
+    <div class="file-container">
+        <h1>Your Files</h1>
+        <ul>
+            <% files.forEach(function(file) { %>
+                <li>
+                    <a href="/file/download?file=<%= file %>" class="file-link"><%= file %></a>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+</body>
+</html>

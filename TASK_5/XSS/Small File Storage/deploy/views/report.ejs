@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report to Admin</title>
+    <link rel="stylesheet" href="/report.css">
+</head>
+<body>
+    <div class="report-container">
+        <h2>Report a File to Admin</h2>
+
+        <form action="/report" method="POST">
+            <div class="input-group">
+                <label for="file">/file/download?file=</label>
+                <input type="text" id="file" name="file" required class="file-input">
+                <button type="submit" class="report-button">Report</button>
+            </div>
+        </form>
+
+        <hr>
+
+        <% if (reportStatus === 'success') { %>
+            <div class="message success">Report submitted successfully!</div>
+        <% } else if (reportStatus === 'fail') { %>
+            <div class="message fail">Failed to submit report. Please try again.</div>
+        <% } %>
+    </div>
+</body>
+</html>
