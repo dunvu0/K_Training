@@ -79,16 +79,65 @@ $username = $_SESSION['username'];
     .logout a:hover {
       text-decoration: underline;
     }
+    .search-section {
+      margin-top: 30px;
+      padding: 20px;
+      border: 1px solid #ff8c8c;
+      background-color: #fff0f0;
+      border-radius: 4px;
+    }
+    .search-form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .search-input {
+      flex-grow: 1;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    .search-results {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
   <!-- Stored XSS  -->
-  <h1>  Welcome <?php echo $username ?>! </h1>
-
+  <h1>Welcome <?php echo $username ?>!</h1>
+  
+  <!-- Reflected XSS -->
+  <div class="search-section">
+    <h2 class="section-title">Search </h2>
+    <p>Enter a username to search:</p>
+    
+    <form method="get" action="home.php" class="search-form">
+      <input type="text" name="search_user" placeholder="" class="search-input" >
+      <button type="submit" class="btn">Search</button>
+    </form>
+    
+    <?php
+    if(isset($_GET['search_user'])) {
+      $searchTerm = $_GET['search_user'];
+      echo '<div class="search-results">';
+      echo '<h3>Search results for: ' . $searchTerm . '</h3>';
+      // $searchTerm is reflected
+      echo '> Not found';
+      echo '</div>';
+    }
+    ?>
+  </div>
+  
   <div class="render-section">
     <h2 class="section-title">Render HTML</h2>     
     <form method="post" action="home.php">
-      <textarea name="html_code" placeholder="<h1>Your HTML here</h1>"> </textarea>
+      <textarea name="html_code" placeholder="Your HTML here"> </textarea>
       <button type="submit" class="btn">Render</button>
     </form>
     
