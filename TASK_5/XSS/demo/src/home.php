@@ -153,7 +153,9 @@ $username = $_SESSION['username'];
     </div>
   </div>
   <div class="logout">
+    <a href="ranking.php">Ranking</a>
     <a href="logout.php">Logout</a>
+    
   </div>
 </body>
 </html> 
